@@ -1,8 +1,7 @@
 @import "tailwindcss";
-@import "@medisync/ui/styles.css";
 
 @theme {
-  /* Cores Primary (azul do design) */
+  /* Cores Primary */
   --color-primary-50: #e6f2ff;
   --color-primary-100: #b3d9ff;
   --color-primary-200: #80c0ff;
@@ -14,27 +13,23 @@
   --color-primary-800: #00294d;
   --color-primary-900: #00101a;
 
-  /* Cores Success (verde) */
+  /* Success */
   --color-success-50: #d4edda;
   --color-success-500: #28a745;
   --color-success-700: #1e7e34;
 
-  /* Cores Warning (amarelo) */
+  /* Warning */
   --color-warning-50: #fff3cd;
   --color-warning-500: #ffc107;
   --color-warning-700: #d39e00;
 
-  /* Cores Danger (vermelho) */
+  /* Danger */
   --color-danger-50: #f8d7da;
   --color-danger-500: #dc3545;
   --color-danger-700: #bd2130;
 
-  /* Cores Info (ciano) */
+  /* Info */
   --color-info-50: #d1ecf1;
   --color-info-500: #17a2b8;
   --color-info-700: #117a8b;
-}
-
-body {
-  @apply bg-gray-50 text-gray-900;
 }
