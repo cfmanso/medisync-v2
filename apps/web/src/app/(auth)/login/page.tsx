@@ -37,7 +37,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-gray-900">MediSync</h1>
-          <p className="text-gray-600 mt-2">Agendamento Médico</p>
+          <p className="text-gray-600 mt-2">Agendamento de Consultas</p>
           <p className="text-sm text-gray-500 mt-1">Bem-vindo de volta! Por favor, faça seu login.</p>
         </div>
 
@@ -121,16 +121,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <div className="flex justify-center gap-4 mb-2">
-            <a href="/sobre" className="hover:text-gray-700">Sobre Nós</a>
-            <span>|</span>
-            <a href="/contato" className="hover:text-gray-700">Contato</a>
-            <span>|</span>
-            <a href="/termos" className="hover:text-gray-700">Termos de Uso</a>
-            <span>|</span>
-            <a href="/privacidade" className="hover:text-gray-700">Política de Privacidade</a>
-          </div>
-          <p>© 2024 MediSync. Todos os direitos reservados.</p>
+          <p>© 2025 MediSync. Todos os direitos reservados.</p>
         </div>
       </div>
     </div>

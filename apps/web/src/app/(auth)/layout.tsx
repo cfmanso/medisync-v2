@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import '../globals.css';
+import '@medisync/ui/styles.css';
 
 export const metadata: Metadata = {
   title: 'Login - MediSync',

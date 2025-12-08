@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "@medisync/ui/styles.css";
 
 @theme {
   /* Cores Primary (azul do design) */
@@ -33,8 +32,4 @@
   --color-info-50: #d1ecf1;
   --color-info-500: #17a2b8;
   --color-info-700: #117a8b;
-}
-
-body {
-  @apply bg-gray-50 text-gray-900;
 }
