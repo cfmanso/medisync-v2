@@ -24,7 +24,7 @@ export function LoginForm() {
   function onSubmit(data: LoginInput) {
     handleLogin(data, {
       onSuccess: () => {
-        router.push('/dashboard');
+        router.push('/appointment');
       },
     });
   }
