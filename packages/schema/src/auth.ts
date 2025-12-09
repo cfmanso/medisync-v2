@@ -18,3 +18,9 @@ export const loginResponseSchema = z.object({
 export type LoginResponse = z.infer<typeof loginResponseSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
