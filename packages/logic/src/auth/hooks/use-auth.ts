@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import type { LoginInput, LoginResponse } from '@medisync/schema';
-import { apiFetch } from '../../api/api'
+import { apiFetch } from '../../api/proxyHandler'
 
 
 export function useLogin() {

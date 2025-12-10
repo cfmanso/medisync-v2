@@ -1,4 +1,6 @@
-export const API_URL = 'http://localhost:3001';
+const IS_SERVER = typeof window === 'undefined';
+
+export const API_URL = IS_SERVER ? 'http://localhost:3001' : '/api';
 
 interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
