@@ -1,7 +1,6 @@
 const IS_SERVER = typeof window === 'undefined';
 
 export const API_URL = IS_SERVER ? 'http://localhost:3001' : '/api';
-
 interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
 }
@@ -13,13 +12,6 @@ export async function apiFetch<T = any>(endpoint: string, options: FetchOptions 
     'Content-Type': 'application/json',
     ...options.headers,
   };
-
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-  }
 
   const config: RequestInit = {
     ...options,
