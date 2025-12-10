@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiFetch } from '../../api/proxyHandler';
+import { apiFetch } from '../../api/api';
 
 interface HealthResponse {
   status: string;

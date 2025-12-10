@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiFetch} from '../../api/proxyHandler'
 import { AppointmentResponse, CreateAppointmentInput } from '@medisync/schema';
+import { apiFetch } from '../../api/api';
 
 export function useAppointments() {
   return useQuery({
