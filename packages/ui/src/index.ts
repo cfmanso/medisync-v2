@@ -1,5 +1,5 @@
 // Estilos
-export * from './styles.css';
+import './styles.css';
 
 // Componentes de Formulário
 export * from './input';
@@ -24,3 +24,6 @@ export * from './search-input';
 
 // Componentes Legados (manter compatibilidade)
 export * from './code';
+
+export * from './alert'
+export * from './toast';
