@@ -1,22 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Sidebar, SidebarGroup, SidebarItem } from '@medisync/ui';
 import Link from 'next/link';
+import { logoutAction } from '@/actions/auth';
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    // Verificação simples de segurança no cliente
-    // (TODO: Middleware)
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-    }
-  }, [router]);
+  async function handleLogout() {
+    await logoutAction();
+    router.push('/login');
+    router.refresh();
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -82,10 +79,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
         <SidebarGroup title="Configurações">
           <SidebarItem
             as="button"
-            onClick={() => {
-              localStorage.removeItem('token');
-              router.push('/login');
-            }}
+            onClick={handleLogout}
             icon={
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
