@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Public } from 'src/auth/public.decorator';
+import { Pagination, PaginationParams } from 'src/common/decorators/pagination.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -20,9 +23,21 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Post('mock')
+  @Public()
+  createMockUser() {
+    const createUserDto: CreateUserDto = {
+      name: 'Admin',
+      email: 'admin@medisync.com',
+      password: '123456',
+      role: 'ADMIN',
+    };
+    return this.usersService.create(createUserDto);
+  }
+
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query('role') role?: string, @Pagination() pagination?: PaginationParams) {
+    return this.usersService.findAll(role, pagination);
   }
 
   @Get(':id')
