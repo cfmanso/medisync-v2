@@ -1,10 +1,16 @@
 'use client';
 
 import { useAppointments } from '@medisync/logic';
-import { Card, CardBody, Button } from '@medisync/ui'; // Seus componentes!
+import { Card, CardBody, Button } from '@medisync/ui';
+import { useRouter } from 'next/navigation';
 
 export function AppointmentList() {
   const { data: appointments, isLoading, error } = useAppointments();
+  const router = useRouter();
+
+  function OpenPatient(id: string) {
+    router.push(`/patients/${id}`);
+  }
 
   if (isLoading) {
     return (
@@ -73,7 +79,7 @@ export function AppointmentList() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
-               <Button size="sm" variant="outline">Ver Detalhes</Button>
+               <Button size="sm" variant="outline" onClick={() => OpenPatient(appt.patient.id)}>Ver Detalhes</Button>
             </div>
           </CardBody>
         </Card>

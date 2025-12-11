@@ -8,12 +8,10 @@
     "./server": "./src/server.ts"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.0.0",
     "@tanstack/react-query": "^5.90.12",
     "@types/node": "^20.0.0",
     "axios": "^1.0.0",
-    "next": "16.0.7",
-    "react-redux": "^9.0.0"
+    "next": "16.0.7"
   },
   "peerDependencies": {
     "react": ">=18"
