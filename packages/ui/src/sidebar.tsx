@@ -4,6 +4,11 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   footer?: React.ReactNode;
 }
+export interface SidebarItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  icon?: React.ReactNode;
+  active?: boolean;
+  as?: React.ElementType;
+}
 
 export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   ({ className = '', logo, footer, children, ...props }, ref) => {
@@ -39,12 +44,12 @@ export interface SidebarItemProps extends React.AnchorHTMLAttributes<HTMLAnchorE
 }
 
 export const SidebarItem = React.forwardRef<HTMLAnchorElement, SidebarItemProps>(
-  ({ className = '', icon, active = false, children, ...props }, ref) => {
+  ({ className = '', icon, active = false, children, as: Component = 'a', ...props }, ref) => {
     return (
-      <a
+      <Component
         ref={ref}
         className={`
-          flex items-center px-4 py-3 mx-2 rounded-md transition-colors
+          flex items-center px-4 py-3 mx-2 rounded-md transition-colors cursor-pointer
           ${active 
             ? 'bg-primary-700 text-white' 
             : 'text-primary-100 hover:bg-primary-700 hover:text-white'
@@ -55,7 +60,7 @@ export const SidebarItem = React.forwardRef<HTMLAnchorElement, SidebarItemProps>
       >
         {icon && <span className="mr-3">{icon}</span>}
         {children}
-      </a>
+      </Component>
     );
   }
 );
