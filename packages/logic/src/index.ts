@@ -7,3 +7,6 @@ export * from './appointment/hooks/use-appointments';
 export * from './medical-record/hooks/use-medical-record';
 export * from './medical-record/hooks/use-create-medical-record';
 export * from './user/hooks/use-user';
+export * from './user/hooks/use-users';
+export * from './user/hooks/use-create-user';
+export * from './user/hooks/use-delete-user';
