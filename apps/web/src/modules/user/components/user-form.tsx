@@ -25,9 +25,27 @@ export function UserForm({ defaultRole, initialData, onSuccess, onCancel }: User
     return isEditing ? updateUserSchema : registerUserSchema;
   }, [isEditing]);
   
+  const defaultValues = useMemo(() => {
+    if (initialData) {
+      return {
+        name: initialData.name,
+        email: initialData.email,
+        role: initialData.role,
+        password: '',
+      };
+    }
+    return { 
+      role: defaultRole, 
+      name: '', 
+      email: '', 
+      password: '' 
+    };
+  }, [defaultRole, initialData]); // A
+
   const form = useForm<RegisterUserInput | UpdateUserInput>({
     resolver: zodResolver(schema),
     mode: 'onChange',
+    defaultValues,
   });
 
   const { 
@@ -42,18 +60,7 @@ export function UserForm({ defaultRole, initialData, onSuccess, onCancel }: User
   useEffect(() => {
     console.warn('name', name);
   }, [name])
-  useEffect(() => {
-    if (initialData) {
-      reset({
-        name: initialData.name,
-        email: initialData.email,
-        role: initialData.role,
-        password: '',
-      });
-    } else {
-      reset({ role: defaultRole, name: '', email: '', password: '' });
-    }
-  }, [initialData, reset, defaultRole]);
+
 
   function onSubmit(data: RegisterUserInput | UpdateUserInput) {
     if (isEditing && initialData) {
