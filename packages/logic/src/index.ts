@@ -10,3 +10,4 @@ export * from './user/hooks/use-user';
 export * from './user/hooks/use-users';
 export * from './user/hooks/use-create-user';
 export * from './user/hooks/use-delete-user';
+export * from './user/hooks/use-update-user';

@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { prisma, User } from '@medisync/database';
 import * as bcrypt from 'bcrypt';
+import { PaginationParams } from 'src/common/decorators/pagination.decorator';
 
 @Injectable()
 export class UsersService {
@@ -19,12 +20,31 @@ export class UsersService {
     });
   }
 
-  findAll(role?: string) {
-    return prisma.user.findMany({
-      where: role ? { role } : undefined,
-      select: { id: true, name: true, email: true, role: true },
-      orderBy: { name: 'asc' },
-    });
+ async findAll(role?: string, pagination?: PaginationParams) {
+    const { page, limit, skip } = pagination || { page: 1, limit: 10, skip: 0 };
+
+    const where = role ? { role } : undefined;
+
+    const [data, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        select: { id: true, name: true, email: true, role: true, createdAt: true },
+        skip,
+        take: limit,
+        orderBy: { name: 'asc' },
+      }),
+      prisma.user.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+        limit,
+      },
+    };
   }
 
   findOne(id: string) {

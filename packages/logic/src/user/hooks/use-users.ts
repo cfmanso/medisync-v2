@@ -1,13 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '../../api/api';
-import { UserPublic } from '@medisync/schema';
+import { PaginatedUsers } from '@medisync/schema';
 
-export function useUsers(role?: string) {
+export function useUsers(role?: string, page: number = 1, limit: number = 10) {
   return useQuery({
-    queryKey: ['users', role], 
+    queryKey: ['users', role, page, limit], 
     queryFn: () => {
-      const queryString = role ? `?role=${role}` : '';
-      return apiFetch<UserPublic[]>(`/users${queryString}`);
+      const params = new URLSearchParams();
+      if (role) params.append('role', role);
+      params.append('page', page.toString());
+      params.append('limit', limit.toString());
+      
+      return apiFetch<PaginatedUsers>(`/users?${params.toString()}`);
     },
+    // Mantém os dados antigos na tela enquanto carrega a próxima página
+    placeholderData: (previousData) => previousData, 
   });
 }
