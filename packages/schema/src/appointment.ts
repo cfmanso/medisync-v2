@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const createAppointmentSchema = z.object({
-  date: z.coerce.date({
-    errorMap: (issue, ctx) => ({ message: 'Data inválida' })
+  date: z.string().datetime({
+    message: 'Data inválida. Use formato ISO (YYYY-MM-DDTHH:mm:ss.sssZ)'
   }),  
   reason: z.string().optional(), 
   
