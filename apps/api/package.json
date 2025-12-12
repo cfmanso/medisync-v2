@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@casl/ability": "^6.7.3",
+    "@casl/prisma": "^1.6.0",
     "@medisync/database": "*",
     "@medisync/schema": "*",
     "@nestjs/common": "^11.0.1",

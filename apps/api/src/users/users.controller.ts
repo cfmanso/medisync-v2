@@ -49,8 +49,10 @@ export class UsersController {
 
   @Get()
   @CheckPolicies((ability) => ability.can(Action.Read, 'User'))
-  findAll(@Query('role') role?: string, @Pagination() pagination?: PaginationParams) {
-    return this.usersService.findAll(role, pagination);
+  findAll(@Query('role') role?: string, @Pagination() pagination?: PaginationParams, @Request() req) {
+    const ability = this.caslAbilityFactory.createForUser(req.user);
+    
+    return this.usersService.findAll(role, pagination, ability);
   }
 
   @Get(':id')

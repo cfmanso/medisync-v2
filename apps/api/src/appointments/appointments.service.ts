@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { prisma } from '@medisync/database'; // Importando o client singleton
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { AppAbility } from '../casl/casl-ability-factory.service';
+import { accessibleBy } from '@casl/prisma';
 
 @Injectable()
 export class AppointmentsService {
@@ -17,9 +19,12 @@ export class AppointmentsService {
     });
   }
 
-  findAll() {
+  findAll(ability: AppAbility) {
+    const where = accessibleBy(ability).Appointment;
+
     return prisma.appointment.findMany({
       orderBy: { date: 'desc' },
+      where,
       include: {
         doctor: { select: { id: true, name: true, email: true } },
         patient: { select: { id: true, name: true } },

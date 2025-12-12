@@ -20,11 +20,17 @@ export class UsersService {
     });
   }
 
- async findAll(role?: string, pagination?: PaginationParams) {
+ async findAll(role?: string, pagination?: PaginationParams, ability?: AppAbility) {
     const { page, limit, skip } = pagination || { page: 1, limit: 10, skip: 0 };
 
-    const where = role ? { role } : undefined;
-
+    const securityFilter = ability ? accessibleBy(ability).User : {};
+    const businessFilter = role ? { role } : {};
+    const where = {
+        AND: [
+          securityFilter,
+          businessFilter
+        ]
+    };
     const [data, total] = await Promise.all([
       prisma.user.findMany({
         where,

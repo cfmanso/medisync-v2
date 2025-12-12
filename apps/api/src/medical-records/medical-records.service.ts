@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMedicalRecordDto } from './dto/create-medical-record.dto';
 import { prisma } from '@medisync/database';
 import { UpdateMedicalRecordDto } from './dto/update-medical-record.dto';
+import { AppAbility } from '../casl/casl-ability-factory.service';
 
 @Injectable()
 export class MedicalRecordsService {
@@ -14,8 +15,10 @@ export class MedicalRecordsService {
     });
   }
 
-  findAll() {
+  findAll(ability?: AppAbility) {
+    const where = accessibleBy(ability).MedicalRecord;
     return prisma.medicalRecord.findMany({
+      where,
       orderBy: { date: 'desc' },
       include: {
         patient: { select: { name: true } },

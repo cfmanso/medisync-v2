@@ -37,8 +37,9 @@ export class MedicalRecordsController {
 
   @Get()
   @CheckPolicies((ability) => ability.can(Action.Read, 'MedicalRecord'))
-  findAll() {
-    return this.medicalRecordsService.findAll();
+  findAll(@Request() req) {
+    const ability = this.caslAbilityFactory.createForUser(req.user);
+    return this.medicalRecordsService.findAll(ability);
   }
 
   @Get(':id')
@@ -60,7 +61,7 @@ export class MedicalRecordsController {
 
     const record = subject('MedicalRecord', { patientId } as any);
 
-    if (ability.cannot(Action.Read, phantomRecord)) {
+    if (ability.cannot(Action.Read, record)) {
       throw new ForbiddenException('Você não pode ver prontuários deste paciente');
     }
 
