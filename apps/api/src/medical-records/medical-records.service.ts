@@ -3,6 +3,7 @@ import { CreateMedicalRecordDto } from './dto/create-medical-record.dto';
 import { prisma } from '@medisync/database';
 import { UpdateMedicalRecordDto } from './dto/update-medical-record.dto';
 import { AppAbility } from '../casl/casl-ability-factory.service';
+import { accessibleBy } from '@casl/prisma';
 
 @Injectable()
 export class MedicalRecordsService {

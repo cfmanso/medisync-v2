@@ -4,6 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { prisma, User } from '@medisync/database';
 import * as bcrypt from 'bcrypt';
 import { PaginationParams } from 'src/common/decorators/pagination.decorator';
+import { AppAbility } from '../casl/casl-ability-factory.service';
+import { accessibleBy } from '@casl/prisma';
 
 @Injectable()
 export class UsersService {
@@ -26,10 +28,7 @@ export class UsersService {
     const securityFilter = ability ? accessibleBy(ability).User : {};
     const businessFilter = role ? { role } : {};
     const where = {
-        AND: [
-          securityFilter,
-          businessFilter
-        ]
+      AND: [securityFilter, businessFilter],
     };
     const [data, total] = await Promise.all([
       prisma.user.findMany({

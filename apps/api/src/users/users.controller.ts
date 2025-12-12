@@ -36,7 +36,7 @@ export class UsersController {
   }
 
   @Post('mock')
-  @Public() 
+  @Public()
   createMockUser() {
     const createUserDto: CreateUserDto = {
       name: 'Admin',
@@ -49,9 +49,9 @@ export class UsersController {
 
   @Get()
   @CheckPolicies((ability) => ability.can(Action.Read, 'User'))
-  findAll(@Query('role') role?: string, @Pagination() pagination?: PaginationParams, @Request() req) {
+  findAll(@Request() req, @Query('role') role?: string, @Pagination() pagination?: PaginationParams) {
     const ability = this.caslAbilityFactory.createForUser(req.user);
-    
+
     return this.usersService.findAll(role, pagination, ability);
   }
 
