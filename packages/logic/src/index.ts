@@ -11,3 +11,5 @@ export * from './user/hooks/use-users';
 export * from './user/hooks/use-create-user';
 export * from './user/hooks/use-delete-user';
 export * from './user/hooks/use-update-user';
+export * from './user/hooks/use-permissions';
+export * from './user/hooks/use-current-user';

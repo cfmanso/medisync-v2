@@ -5,13 +5,15 @@ import { Sidebar, SidebarGroup, SidebarItem } from '@medisync/ui';
 import Link from 'next/link';
 import { logoutAction } from '@/actions/auth';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCurrentUser } from '../../../../../packages/logic/src/user/hooks/use-current-user';
 
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
-  
+  const { data: currentUser } = useCurrentUser();
+
   async function handleLogout() {
     await logoutAction();
 
@@ -34,8 +36,8 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
               </svg>
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">Dr. Admin</p>
-              <p className="text-xs text-primary-200">admin@medisync.com</p>
+              <p className="text-sm font-medium">{currentUser?.name || 'User'}</p>
+              <p className="text-xs text-primary-200">{currentUser?.email || ''}</p>
             </div>
           </div>
         }
