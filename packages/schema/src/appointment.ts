@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
 export const createAppointmentSchema = z.object({
-  date: z.string().datetime({
-    message: 'Data inválida. Use formato ISO (YYYY-MM-DDTHH:mm:ss.sssZ)'
-  }),  
+  date: z.coerce.date().transform((date) => date.toISOString()),
   reason: z.string().optional(), 
   
   doctorId: z.string().uuid("ID do médico inválido"),
