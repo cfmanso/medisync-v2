@@ -7,6 +7,8 @@ export const userPublicSchema = z.object({
   role: z.enum(["DOCTOR", "PATIENT", "ADMIN"]),
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()).optional(),
+
+  permissions: z.string().nullable().optional(),
 });
 
 export const registerUserSchema = z.object({

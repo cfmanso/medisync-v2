@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useUsers, useDeleteUser } from '@medisync/logic';
 import { Button, Modal, useToast, Card } from '@medisync/ui';
 import { UserForm } from './user-form';
-import { UserPublic } from '@medisync/schema';
+
 interface UserListProps {
   role: 'DOCTOR' | 'PATIENT';
   title: string;
@@ -19,8 +19,8 @@ export function UserList({ role, title }: UserListProps) {
   const { success: toast, error: showError } = useToast();
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingUser, setEditingUser] = useState<UserPublic | null>(null);
-
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  
   const handleDelete = (id: string, name: string) => {
     if (confirm(`Tem certeza que deseja remover ${name}?`)) {
       deleteUser(id, {
@@ -30,13 +30,13 @@ export function UserList({ role, title }: UserListProps) {
     }
   };
 
-  const handleEdit = (user: UserPublic) => {
-    setEditingUser(user);
+  const handleEdit = (userId: string) => {
+    setEditingUserId(userId);
     setIsModalOpen(true);
   };
 
   const handleCreate = () => {
-    setEditingUser(null); // Garante que não tem usuário selecionado
+    setEditingUserId(null);
     setIsModalOpen(true);
   };
 
@@ -87,7 +87,7 @@ export function UserList({ role, title }: UserListProps) {
                   </td>
                 </tr>
               ) : (
-                response?.data.map((user: UserPublic) => (
+                response?.data.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -101,11 +101,11 @@ export function UserList({ role, title }: UserListProps) {
                       {user.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(user.createdAt || Date.now()).toLocaleDateString('pt-BR')}
+                      {user.createdAt ? new Date(user.createdAt).toLocaleDateString('pt-BR') : '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button 
-                        onClick={() => handleEdit(user)}
+                        onClick={() => handleEdit(user.id)}
                         className="text-blue-600 hover:text-blue-900 mr-4"
                       >
                         Editar
@@ -157,12 +157,12 @@ export function UserList({ role, title }: UserListProps) {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingUser ? `Editar ${editingUser.name}` : `Cadastrar ${role === 'DOCTOR' ? 'Médico' : 'Paciente'}`}
+        title={editingUserId ? `Editar ${role === 'DOCTOR' ? 'Médico' : 'Paciente'}` : `Cadastrar ${role === 'DOCTOR' ? 'Médico' : 'Paciente'}`}
         size="md"
       >
         <UserForm 
           defaultRole={role}
-          initialData={editingUser} // Passamos o usuário selecionado
+          userId={editingUserId || undefined}
           onSuccess={() => setIsModalOpen(false)}
           onCancel={() => setIsModalOpen(false)}
         />
