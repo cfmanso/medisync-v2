@@ -39,7 +39,7 @@ export class AppointmentsController {
   @CheckPolicies((ability) => ability.can(Action.Read, 'Appointment'))
   findAll(@Request() req) {
     const ability = this.caslAbilityFactory.createForUser(req.user);
-    return this.appointmentsService.findAll(ability);
+    return this.appointmentsService.findAll(ability, req.user);
   }
 
   @Get(':id')

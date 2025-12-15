@@ -22,7 +22,11 @@ export class UsersService {
     });
   }
 
- async findAll(role?: string, pagination?: PaginationParams, ability?: AppAbility) {
+  async findAll(
+    role?: string,
+    pagination?: PaginationParams,
+    ability?: AppAbility,
+  ) {
     const { page, limit, skip } = pagination || { page: 1, limit: 10, skip: 0 };
 
     const securityFilter = ability ? accessibleBy(ability).User : {};
@@ -33,7 +37,13 @@ export class UsersService {
     const [data, total] = await Promise.all([
       prisma.user.findMany({
         where,
-        select: { id: true, name: true, email: true, role: true, createdAt: true },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+        },
         skip,
         take: limit,
         orderBy: { name: 'asc' },
@@ -66,6 +76,15 @@ export class UsersService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...dataWithoutPassword } = updateUserDto;
     return prisma.user.update({ where: { id }, data: dataWithoutPassword });
+  }
+
+  async updatePermissions(id: string, permissions: any[]) {
+    const permissionsString = JSON.stringify(permissions);
+
+    return prisma.user.update({
+      where: { id },
+      data: { permissions: permissionsString },
+    });
   }
 
   remove(id: string) {

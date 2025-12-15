@@ -20,7 +20,24 @@ export const updateUserSchema = registerUserSchema.partial().extend({
 
 });
 
+// casl
+const caslActionSchema = z.enum(['manage', 'create', 'read', 'update', 'delete']);
+const caslSubjectSchema = z.enum(['User', 'Appointment', 'MedicalRecord', 'all']);
 
+const caslRuleSchema = z.object({
+  action: caslActionSchema,
+  subject: caslSubjectSchema,
+  conditions: z.record(z.any()).optional(), 
+  inverted: z.boolean().optional(),
+  reason: z.string().optional(),
+});
+
+export const updatePermissionsSchema = z.object({
+  permissions: z.array(caslRuleSchema),
+});
+
+export type CaslRule = z.infer<typeof caslRuleSchema>;
+export type UpdatePermissionsInput = z.infer<typeof updatePermissionsSchema>;
 export type UserPublic = z.infer<typeof userPublicSchema>;
 export type RegisterUserInput = z.infer<typeof registerUserSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;

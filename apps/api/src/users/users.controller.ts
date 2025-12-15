@@ -81,6 +81,15 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Patch(':id/permissions')
+  @CheckPolicies((ability) => ability.can(Action.Update, 'User'))
+  async updatePermissions(
+    @Param('id') id: string,
+    @Body() dto: UpdatePermissionsDto,
+  ) {
+    return this.usersService.updatePermissions(id, dto.permissions);
+  }
+
   @Delete(':id')
   async remove(@Param('id') id: string, @Request() req) {
     const userToDelete = await this.usersService.findOne(id);

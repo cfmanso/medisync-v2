@@ -1,4 +1,4 @@
-import { AbilityBuilder, PureAbility } from '@casl/ability';
+import { AbilityBuilder, PureAbility, RawRuleOf } from '@casl/ability';
 import { PrismaQuery, Subjects, createPrismaAbility } from '@casl/prisma';
 import { Injectable } from '@nestjs/common';
 import { User, Appointment, MedicalRecord } from '@medisync/database';
@@ -46,6 +46,26 @@ export class CaslAbilityFactoryService {
       can(Action.Read, 'Appointment', { patientId: user.id });
       can(Action.Read, 'MedicalRecord', { patientId: user.id });
       can(Action.Read, 'User', { id: user.id });
+    }
+
+    // abac permissions
+    if (user.permissions) {
+      try {
+        const customRules = JSON.parse(
+          user.permissions,
+        ) as RawRuleOf<AppAbility>[];
+
+        if (Array.isArray(customRules)) {
+          customRules.forEach((rule) => {
+            can(rule.action, rule.subject, rule.conditions);
+          });
+        }
+      } catch (error) {
+        console.error(
+          `Erro ao processar permissões do usuário ${user.id}:`,
+          error,
+        );
+      }
     }
 
     return build();
