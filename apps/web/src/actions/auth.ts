@@ -28,4 +28,5 @@ export async function loginAction(credentials: LoginInput) {
 
 export async function logoutAction() {
   (await cookies()).delete('token');
+  return { success: true };
 }

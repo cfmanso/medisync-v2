@@ -4,13 +4,18 @@ import { useRouter, usePathname } from 'next/navigation';
 import { Sidebar, SidebarGroup, SidebarItem } from '@medisync/ui';
 import Link from 'next/link';
 import { logoutAction } from '@/actions/auth';
+import { useQueryClient } from '@tanstack/react-query';
+
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-
+  const queryClient = useQueryClient();
+  
   async function handleLogout() {
     await logoutAction();
+
+    queryClient.clear();
     router.push('/login');
     router.refresh();
   }
