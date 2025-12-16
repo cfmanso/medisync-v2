@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
-import { FormProvider, useForm, useFieldArray, Controller } from 'react-hook-form';
+import { FormProvider, useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { 
   registerUserSchema, 
@@ -9,15 +9,10 @@ import {
   type RegisterUserInput,
   type UserPublic, 
   type UpdateUserInput,
-  type UpdatePermissionsInput 
 } from '@medisync/schema';
 import { useCreateUser, useUpdateUser, useUpdatePermissions, useCurrentUser, useUser } from '@medisync/logic';
 import { Button, Input, Select, useToast, Alert, Card, CardBody } from '@medisync/ui'; 
 import { useQueryClient } from '@tanstack/react-query';
-
-type UserFormData = (RegisterUserInput | UpdateUserInput) & {
-  permissions?: UpdatePermissionsInput['permissions'];
-};
 
 interface UserFormProps {
   defaultRole: 'PATIENT' | 'DOCTOR';
@@ -93,8 +88,8 @@ export function UserForm({ defaultRole, userId, onSuccess, onCancel }: UserFormP
     return getDefaultValues(initialData, defaultRole);
   }, [initialData, defaultRole]);
 
-  const form = useForm<UserFormData>({
-    resolver: zodResolver(schema),
+  const form = useForm<UpdateUserInput>({
+    resolver: zodResolver(updateUserSchema),
     mode: 'onChange',
     defaultValues,
   });
@@ -118,7 +113,7 @@ export function UserForm({ defaultRole, userId, onSuccess, onCancel }: UserFormP
     }
   }, [initialData, userId, defaultRole, form]);
 
-  async function onSubmit(data: UserFormData) {
+  async function onSubmit(data: UpdateUserInput) {
     try {
       if (isEditing && initialData) {
         const userPayload: UpdateUserInput = {};
