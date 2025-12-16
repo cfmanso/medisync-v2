@@ -7,7 +7,6 @@ export const userPublicSchema = z.object({
   role: z.enum(["DOCTOR", "PATIENT", "ADMIN"]),
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()).optional(),
-
   permissions: z.string().nullable().optional(),
 });
 
@@ -16,10 +15,6 @@ export const registerUserSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres').optional().or(z.literal('')),
   role: z.enum(["DOCTOR", "PATIENT", "ADMIN"]),
-});
-
-export const updateUserSchema = registerUserSchema.partial().extend({
-
 });
 
 // casl
@@ -32,6 +27,10 @@ const caslRuleSchema = z.object({
   conditions: z.record(z.any()).optional(), 
   inverted: z.boolean().optional(),
   reason: z.string().optional(),
+});
+
+export const updateUserSchema = registerUserSchema.partial().extend({
+  permissions: z.array(caslRuleSchema).optional(),
 });
 
 export const updatePermissionsSchema = z.object({

@@ -78,6 +78,10 @@ export class UsersController {
       throw new ForbiddenException('Você não pode editar este usuário');
     }
 
+    if (updateUserDto.permissions !== undefined && req.user.role !== 'ADMIN') {
+      throw new ForbiddenException('Apenas administradores podem modificar permissões');
+    }
+
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -85,8 +89,12 @@ export class UsersController {
   @CheckPolicies((ability) => ability.can(Action.Update, 'User'))
   async updatePermissions(
     @Param('id') id: string,
-    @Body() dto: UpdatePermissionsDto,
+    @Body() dto: { permissions: any[] },
+    @Request() req,
   ) {
+    if (req.user.role !== 'ADMIN') {
+      throw new ForbiddenException('Apenas administradores podem modificar permissões');
+    }
     return this.usersService.updatePermissions(id, dto.permissions);
   }
 

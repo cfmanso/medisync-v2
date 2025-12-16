@@ -72,10 +72,19 @@ export class UsersService {
     });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...dataWithoutPassword } = updateUserDto;
-    return prisma.user.update({ where: { id }, data: dataWithoutPassword });
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const { password, permissions, ...dataWithoutPasswordAndPermissions } = updateUserDto;
+    
+    const dataToUpdate: any = { ...dataWithoutPasswordAndPermissions };
+
+    if (permissions !== undefined) {
+      dataToUpdate.permissions = JSON.stringify(permissions);
+    }
+
+    return prisma.user.update({ 
+      where: { id }, 
+      data: dataToUpdate 
+    });
   }
 
   async updatePermissions(id: string, permissions: any[]) {

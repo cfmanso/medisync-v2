@@ -4,8 +4,9 @@ import { UserPublic } from '@medisync/schema'
 
 export function useUser(id: string) {
   return useQuery({
-    queryKey: ['patient', id],
+    queryKey: ['user', id],
     queryFn: () => apiFetch<UserPublic>(`/users/${id}`),
     enabled: !!id,
+    staleTime: 0,
   });
 }
